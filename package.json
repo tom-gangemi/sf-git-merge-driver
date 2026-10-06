@@ -29,6 +29,7 @@
     "@stryker-mutator/vitest-runner": "10.0.0",
     "@types/chai": "5.2.3",
     "@types/mocha": "10.0.10",
+    "@typescript/typescript6": "6.0.2",
     "@vitest/coverage-v8": "5.0.2",
     "chai": "6.2.2",
     "esbuild": "0.28.2",
@@ -319,10 +320,14 @@
     },
     "test:mutation": {
       "command": "stryker run",
+      "env": {
+        "NODE_OPTIONS": "--import ./tooling/stryker-compat.mjs"
+      },
       "files": [
         "src/**/*.ts",
         "test/**/*.test.ts",
         "stryker.config.json",
+        "tooling/stryker-compat.mjs",
         "vitest.config.ts",
         "**/tsconfig.json"
       ],
@@ -334,11 +339,15 @@
       ]
     },
     "test:mutation:incremental": {
-      "command": "FILES=$(git --no-pager diff --name-only --diff-filter=AM --merge-base origin/main src | grep '.ts$' | paste -sd ',' -) && [ -n \"$FILES\" ] && stryker run --mutate \"$FILES\" || echo 'No source files changed — skipping mutation testing'",
+      "command": "FILES=$(git --no-pager diff --name-only --diff-filter=AM --merge-base origin/main src | grep '.ts$' | paste -sd ',' -); if [ -n \"$FILES\" ]; then stryker run --mutate \"$FILES\"; else echo 'No source files changed — skipping mutation testing'; fi",
+      "env": {
+        "NODE_OPTIONS": "--import ./tooling/stryker-compat.mjs"
+      },
       "files": [
         "src/**/*.ts",
         "test/**/*.test.ts",
         "stryker.config.json",
+        "tooling/stryker-compat.mjs",
         "vitest.config.ts",
         "**/tsconfig.json"
       ],

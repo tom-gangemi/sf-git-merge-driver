@@ -9,7 +9,13 @@ export default {
   ],
   project: ['**/*.{ts,js}'],
   // tsx is loaded through indirections knip cannot follow: the `import=tsx`
-  // node-option in .mocharc.json and the bin/dev.js shebang.
-  ignoreDependencies: ['@commitlint/config-conventional', 'tsx'],
+  // node-option in .mocharc.json and the bin/dev.js shebang. Likewise
+  // @typescript/typescript6, which tooling/stryker-compat.mjs substitutes
+  // for `typescript` when Stryker resolves it.
+  ignoreDependencies: [
+    '@commitlint/config-conventional',
+    '@typescript/typescript6',
+    'tsx',
+  ],
   ignore: ['vitest.config.perf.ts'],
 }

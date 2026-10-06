@@ -85,8 +85,15 @@ Run Stryker to validate that tests actually catch mutations:
 
 ```bash
 npm run test:mutation             # full run
-npm run test:mutation:incremental # faster re-runs
+npm run test:mutation:incremental # only src files changed against origin/main
 ```
+
+Run Stryker through these scripts rather than `npx stryker run`. Stryker 10 does
+not support TypeScript 7 or Vitest 5 yet, and the scripts load
+`tooling/stryker-compat.mjs` (through `NODE_OPTIONS`) to bridge both. Without it
+the run either crashes on the missing TypeScript compiler API, or skips every test
+and reports every covered mutant as Survived. The file explains each shim and when
+to remove it.
 
 ### NUT Testing
 
