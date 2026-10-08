@@ -1,0 +1,9 @@
+export declare const DEFAULT_CONFLICT_MARKER_SIZE = 7;
+export declare const MAX_CONFLICT_MARKER_SIZE = 100;
+export declare const ANCESTOR_CONFLICT_MARKER = "|";
+export declare const LOCAL_CONFLICT_MARKER = "<";
+export declare const OTHER_CONFLICT_MARKER = ">";
+export declare const DEFAULT_ANCESTOR_CONFLICT_TAG = "base";
+export declare const DEFAULT_LOCAL_CONFLICT_TAG = "ours";
+export declare const DEFAULT_OTHER_CONFLICT_TAG = "theirs";
+export declare const SEPARATOR = "=";

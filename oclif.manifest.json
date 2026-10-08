@@ -1,0 +1,381 @@
+{
+  "commands": {
+    "git:merge:driver:install": {
+      "aliases": [
+        "git:merge:driver:enable"
+      ],
+      "args": {},
+      "description": "Registers the driver in `.git/config` and adds one merge rule per Salesforce metadata glob to `.git/info/attributes`. Safe to re-run: install is idempotent, preserves any user attributes already on the globs, and dedupes legacy duplicate rules silently.\n\nIf another merge driver is already configured on one of our globs, install aborts by default and lists the conflicts. Pass `--on-conflict=skip` to leave those globs to the other driver, `--on-conflict=overwrite` (or `--force`) to take them over (uninstall restores the originals), or run the command from a TTY to be prompted interactively. `--dry-run` previews the plan without writing.",
+      "examples": [
+        "Install the driver for a given project:\n<%= config.bin %> <%= command.id %>",
+        "Preview the changes that would be written:\n<%= config.bin %> <%= command.id %> --dry-run",
+        "Take over conflicting globs non-interactively (for CI):\n<%= config.bin %> <%= command.id %> --force"
+      ],
+      "flags": {
+        "json": {
+          "description": "Format output as json.",
+          "helpGroup": "GLOBAL",
+          "name": "json",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "flags-dir": {
+          "helpGroup": "GLOBAL",
+          "name": "flags-dir",
+          "summary": "Import flag values from a directory.",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "dry-run": {
+          "name": "dry-run",
+          "summary": "Plan the install without writing to git config or .git/info/attributes. Exits 0; shows the list of rules that would be added/skipped/conflict.",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "on-conflict": {
+          "name": "on-conflict",
+          "summary": "How to handle patterns already owned by another merge driver in .git/info/attributes. Default: abort (refuse to change anything).",
+          "default": "abort",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "abort",
+            "skip",
+            "overwrite"
+          ],
+          "type": "option"
+        },
+        "force": {
+          "name": "force",
+          "summary": "Alias for --on-conflict=overwrite. Non-interactive shortcut for CI.",
+          "allowNo": false,
+          "type": "boolean"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "git:merge:driver:install",
+      "pluginAlias": "sf-git-merge-driver",
+      "pluginName": "sf-git-merge-driver",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Installs a local git merge driver for Salesforce metadata in the current project.",
+      "enableJsonFlag": true,
+      "isESM": true,
+      "relativePath": [
+        "lib",
+        "commands",
+        "git",
+        "merge",
+        "driver",
+        "install.js"
+      ],
+      "aliasPermutations": [
+        "git:merge:driver:enable",
+        "merge:git:driver:enable",
+        "merge:driver:git:enable",
+        "merge:driver:enable:git",
+        "git:driver:merge:enable",
+        "driver:git:merge:enable",
+        "driver:merge:git:enable",
+        "driver:merge:enable:git",
+        "git:driver:enable:merge",
+        "driver:git:enable:merge",
+        "driver:enable:git:merge",
+        "driver:enable:merge:git",
+        "git:merge:enable:driver",
+        "merge:git:enable:driver",
+        "merge:enable:git:driver",
+        "merge:enable:driver:git",
+        "git:enable:merge:driver",
+        "enable:git:merge:driver",
+        "enable:merge:git:driver",
+        "enable:merge:driver:git",
+        "git:enable:driver:merge",
+        "enable:git:driver:merge",
+        "enable:driver:git:merge",
+        "enable:driver:merge:git"
+      ],
+      "permutations": [
+        "git:merge:driver:install",
+        "merge:git:driver:install",
+        "merge:driver:git:install",
+        "merge:driver:install:git",
+        "git:driver:merge:install",
+        "driver:git:merge:install",
+        "driver:merge:git:install",
+        "driver:merge:install:git",
+        "git:driver:install:merge",
+        "driver:git:install:merge",
+        "driver:install:git:merge",
+        "driver:install:merge:git",
+        "git:merge:install:driver",
+        "merge:git:install:driver",
+        "merge:install:git:driver",
+        "merge:install:driver:git",
+        "git:install:merge:driver",
+        "install:git:merge:driver",
+        "install:merge:git:driver",
+        "install:merge:driver:git",
+        "git:install:driver:merge",
+        "install:git:driver:merge",
+        "install:driver:git:merge",
+        "install:driver:merge:git"
+      ]
+    },
+    "git:merge:driver:run": {
+      "aliases": [],
+      "args": {},
+      "deprecationOptions": {
+        "version": "2.0.0",
+        "to": "sf git merge driver install"
+      },
+      "description": "DEPRECATED — will be removed in the next major release. Run `sf git merge driver install` in the repository to upgrade to the faster standalone binary driver.\n\nRuns the merge driver for the specified files, handling the merge conflict resolution using Salesforce-specific merge strategies. This command is typically called automatically by Git when a merge conflict is detected.",
+      "examples": [
+        "Run the merge driver for conflicting files:\n<%= config.bin %> <%= command.id %> --ancestor-file=<value> --local-file=<value> --other-file=<value> --output-file=<value>",
+        "Where:\n- ancestor-file is the path to the common ancestor version of the file\n- local-file is the path to our version of the file\n- other-file is the path to their version of the file\n- output-file is the path to the file where the merged content will be written"
+      ],
+      "flags": {
+        "json": {
+          "description": "Format output as json.",
+          "helpGroup": "GLOBAL",
+          "name": "json",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "flags-dir": {
+          "helpGroup": "GLOBAL",
+          "name": "flags-dir",
+          "summary": "Import flag values from a directory.",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "ancestor-file": {
+          "char": "O",
+          "name": "ancestor-file",
+          "required": true,
+          "summary": "path to the common ancestor version of the file",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "local-file": {
+          "char": "A",
+          "name": "local-file",
+          "required": true,
+          "summary": "path to our version of the file",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "other-file": {
+          "char": "B",
+          "name": "other-file",
+          "required": true,
+          "summary": "path to their version of the file",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "output-file": {
+          "char": "P",
+          "name": "output-file",
+          "required": true,
+          "summary": "path to the file where the merged content will be written",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "conflict-marker-size": {
+          "char": "L",
+          "name": "conflict-marker-size",
+          "summary": "number of characters to show for conflict markers",
+          "default": 7,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "ancestor-conflict-tag": {
+          "char": "S",
+          "name": "ancestor-conflict-tag",
+          "summary": "string used to tag ancestor version in conflicts",
+          "default": "base",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "local-conflict-tag": {
+          "char": "X",
+          "name": "local-conflict-tag",
+          "summary": "string used to tag local version in conflicts",
+          "default": "ours",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "other-conflict-tag": {
+          "char": "Y",
+          "name": "other-conflict-tag",
+          "summary": "string used to tag other version in conflicts",
+          "default": "theirs",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "git:merge:driver:run",
+      "pluginAlias": "sf-git-merge-driver",
+      "pluginName": "sf-git-merge-driver",
+      "pluginType": "core",
+      "state": "deprecated",
+      "strict": true,
+      "summary": "Runs the merge driver for the specified files.",
+      "enableJsonFlag": true,
+      "isESM": true,
+      "relativePath": [
+        "lib",
+        "commands",
+        "git",
+        "merge",
+        "driver",
+        "run.js"
+      ],
+      "aliasPermutations": [],
+      "permutations": [
+        "git:merge:driver:run",
+        "merge:git:driver:run",
+        "merge:driver:git:run",
+        "merge:driver:run:git",
+        "git:driver:merge:run",
+        "driver:git:merge:run",
+        "driver:merge:git:run",
+        "driver:merge:run:git",
+        "git:driver:run:merge",
+        "driver:git:run:merge",
+        "driver:run:git:merge",
+        "driver:run:merge:git",
+        "git:merge:run:driver",
+        "merge:git:run:driver",
+        "merge:run:git:driver",
+        "merge:run:driver:git",
+        "git:run:merge:driver",
+        "run:git:merge:driver",
+        "run:merge:git:driver",
+        "run:merge:driver:git",
+        "git:run:driver:merge",
+        "run:git:driver:merge",
+        "run:driver:git:merge",
+        "run:driver:merge:git"
+      ]
+    },
+    "git:merge:driver:uninstall": {
+      "aliases": [
+        "git:merge:driver:disable"
+      ],
+      "args": {},
+      "description": "Removes the `merge.salesforce-source` section from `.git/config` and strips the driver's rules from `.git/info/attributes`. Lines that combined the driver with user attributes (e.g. `*.profile-meta.xml text=auto merge=salesforce-source`) are rewritten to keep the user attributes; only the `merge=` token is removed. If a previous install used `--on-conflict=overwrite`, the original driver rule is restored from the annotation comment written at install time. `--dry-run` previews the plan without writing.",
+      "examples": [
+        "Uninstall the driver for a given project:\n<%= config.bin %> <%= command.id %>",
+        "Preview the changes that would be written:\n<%= config.bin %> <%= command.id %> --dry-run"
+      ],
+      "flags": {
+        "json": {
+          "description": "Format output as json.",
+          "helpGroup": "GLOBAL",
+          "name": "json",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "flags-dir": {
+          "helpGroup": "GLOBAL",
+          "name": "flags-dir",
+          "summary": "Import flag values from a directory.",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "dry-run": {
+          "name": "dry-run",
+          "summary": "Plan the uninstall without touching git config or .git/info/attributes. Exits 0; shows what would be removed.",
+          "allowNo": false,
+          "type": "boolean"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "git:merge:driver:uninstall",
+      "pluginAlias": "sf-git-merge-driver",
+      "pluginName": "sf-git-merge-driver",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Uninstalls the local git merge driver from the current project.",
+      "enableJsonFlag": true,
+      "isESM": true,
+      "relativePath": [
+        "lib",
+        "commands",
+        "git",
+        "merge",
+        "driver",
+        "uninstall.js"
+      ],
+      "aliasPermutations": [
+        "git:merge:driver:disable",
+        "merge:git:driver:disable",
+        "merge:driver:git:disable",
+        "merge:driver:disable:git",
+        "git:driver:merge:disable",
+        "driver:git:merge:disable",
+        "driver:merge:git:disable",
+        "driver:merge:disable:git",
+        "git:driver:disable:merge",
+        "driver:git:disable:merge",
+        "driver:disable:git:merge",
+        "driver:disable:merge:git",
+        "git:merge:disable:driver",
+        "merge:git:disable:driver",
+        "merge:disable:git:driver",
+        "merge:disable:driver:git",
+        "git:disable:merge:driver",
+        "disable:git:merge:driver",
+        "disable:merge:git:driver",
+        "disable:merge:driver:git",
+        "git:disable:driver:merge",
+        "disable:git:driver:merge",
+        "disable:driver:git:merge",
+        "disable:driver:merge:git"
+      ],
+      "permutations": [
+        "git:merge:driver:uninstall",
+        "merge:git:driver:uninstall",
+        "merge:driver:git:uninstall",
+        "merge:driver:uninstall:git",
+        "git:driver:merge:uninstall",
+        "driver:git:merge:uninstall",
+        "driver:merge:git:uninstall",
+        "driver:merge:uninstall:git",
+        "git:driver:uninstall:merge",
+        "driver:git:uninstall:merge",
+        "driver:uninstall:git:merge",
+        "driver:uninstall:merge:git",
+        "git:merge:uninstall:driver",
+        "merge:git:uninstall:driver",
+        "merge:uninstall:git:driver",
+        "merge:uninstall:driver:git",
+        "git:uninstall:merge:driver",
+        "uninstall:git:merge:driver",
+        "uninstall:merge:git:driver",
+        "uninstall:merge:driver:git",
+        "git:uninstall:driver:merge",
+        "uninstall:git:driver:merge",
+        "uninstall:driver:git:merge",
+        "uninstall:driver:merge:git"
+      ]
+    }
+  },
+  "version": "2.0.2"
+}

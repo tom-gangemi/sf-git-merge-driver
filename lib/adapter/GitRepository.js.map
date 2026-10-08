@@ -1,0 +1,1 @@
+{"version":3,"file":"GitRepository.js","sourceRoot":"","sources":["../../src/adapter/GitRepository.ts"],"names":[],"mappings":"AAMA,MAAM,OAAO,sBAAuB,SAAQ,KAAK;IAC/B,IAAI,CAAQ;IAE5B,YAAY,IAAY;QACtB,KAAK,CACH,yBAAyB,IAAI,KAAK;YAChC,iDAAiD,CACpD,CAAA;QACD,IAAI,CAAC,IAAI,GAAG,wBAAwB,CAAA;QACpC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAA;IAClB,CAAC;CACF"}

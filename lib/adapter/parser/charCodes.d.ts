@@ -1,0 +1,13 @@
+export declare const LT = 60;
+export declare const GT = 62;
+export declare const SLASH = 47;
+export declare const BANG = 33;
+export declare const QMARK = 63;
+export declare const EQ = 61;
+export declare const SPACE = 32;
+export declare const TAB = 9;
+export declare const LF = 10;
+export declare const CR = 13;
+export declare const isNameStop: (charCode: number) => boolean;
+export declare const isAsciiLetter: (charCode: number) => boolean;
+export declare const isQuote: (charCode: number) => boolean;
